@@ -1,0 +1,220 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema bd_genshin
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema bd_genshin
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `bd_genshin` DEFAULT CHARACTER SET utf8 ;
+USE `bd_genshin` ;
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`tipos_cuenta`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`tipos_cuenta` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `tipo_cuenta` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`cuenta_id` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `cuenta_id` INT,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`usuarios`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`usuarios` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `usuario` VARCHAR(45) NOT NULL,
+  `contrasenha` VARCHAR(45) NOT NULL,
+  `id_tipos_cuenta` INT NOT NULL,
+  PRIMARY KEY (`id`)
+  INDEX `fk_tipos_cuenta_idx` (`id_tipos_cuenta` ASC),
+  CONSTRAINT `fk_tipos_cuenta`
+    FOREIGN KEY (`id_tipos_cuenta`)
+    REFERENCES `bd_genshin`.`tipos_cuenta` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`set_artefacto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`set_artefacto` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre_set` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`tipo_artefacto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`tipo_artefacto` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre_tipo` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`stat_principal`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`stat_principal` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre_stat` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`tipo_artefacto_stat`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`tipo_artefacto_stat` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_tipo_artefacto` INT NOT NULL,
+  `id_stat_principal` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_tipo_artefacto_idx` (`id_tipo_artefacto` ASC),
+  INDEX `fk_stat_principal_idx` (`id_stat_principal` ASC),
+  CONSTRAINT `fk_tipo_artefacto`
+    FOREIGN KEY (`id_tipo_artefacto`)
+    REFERENCES `bd_genshin`.`tipo_artefacto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_stat_principal`
+    FOREIGN KEY (`id_stat_principal`)
+    REFERENCES `bd_genshin`.`stat_principal` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`artefacto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`artefacto` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_usuarios` INT NOT NULL,
+  `id_set` INT NOT NULL,
+  `id_tipo_artefacto_stat` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_usuarios_idx` (`id_usuarios` ASC),
+  INDEX `fk_set_artefacto_idx` (`id_set` ASC),
+  INDEX `fk_tipo_artefacto_stat_idx` (`id_tipo_artefacto_stat` ASC),
+  CONSTRAINT `fk_usuarios`
+    FOREIGN KEY (`id_usuarios`)
+    REFERENCES `bd_genshin`.`usuarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_set_artefacto`
+    FOREIGN KEY (`id_set`)
+    REFERENCES `bd_genshin`.`set_artefacto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tipo_artefacto_stat`
+    FOREIGN KEY (`id_tipo_artefacto_stat`)
+    REFERENCES `bd_genshin`.`tipo_artefacto_stat` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`substats`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`substats` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre_substat` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`valores`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`valores` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `valor` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`substats_valores`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`substats_valores` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_substats` INT NOT NULL,
+  `id_valores` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_substats_idx` (`id_substats` ASC),
+  INDEX `fk_valores_idx` (`id_valores` ASC),
+  CONSTRAINT `fk_substats`
+    FOREIGN KEY (`id_substats`)
+    REFERENCES `bd_genshin`.`substats` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_valores`
+    FOREIGN KEY (`id_valores`)
+    REFERENCES `bd_genshin`.`valores` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`cantidad_subidas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`cantidad_subidas` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `cantidad` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bd_genshin`.`substats_subidos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `bd_genshin`.`substats_subidos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_artefacto` INT NOT NULL,
+  `id_substats_valores` INT NOT NULL,
+  `id_cantidad_subidas` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_substats_valores_idx` (`id_substats_valores` ASC),
+  INDEX `id_cantidad_subidas_idx` (`id_cantidad_subidas` ASC),
+  INDEX `fk_artefacto_idx` (`id_artefacto` ASC),
+  CONSTRAINT `fk_substats_valores`
+    FOREIGN KEY (`id_substats_valores`)
+    REFERENCES `bd_genshin`.`substats_valores` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cantidad_subidas`
+    FOREIGN KEY (`id_cantidad_subidas`)
+    REFERENCES `bd_genshin`.`cantidad_subidas` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_artefacto`
+    FOREIGN KEY (`id_artefacto`)
+    REFERENCES `bd_genshin`.`artefacto` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

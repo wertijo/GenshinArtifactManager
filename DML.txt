@@ -1,0 +1,143 @@
+INSERT INTO `bd_genshin`.`tipos_cuenta`
+(`tipo_cuenta`)
+VALUES
+("Nueva"),
+("Mediocre"),
+("Perfecta"),
+("Premium");
+
+INSERT INTO `bd_genshin`.`set_artefacto`
+(`nombre_set`)
+VALUES
+("Final del Gladiador"),
+("Orquesta del Errante"),
+("Ritual Antiguo de la Nobleza"),
+("Caballería Sanguinaria"),
+("Doncella Amada"),
+("Sombra Verde Esmeralda"),
+("Petra Arcaica"),
+("Retroceso del Meteorito"),
+("Domador de Truenos"),
+("Furia del Trueno"),
+("Virtuoso Corredor de Lava"),
+("Bruja Carmesí en Llamas"),
+("Nómada del Invierno"),
+("Corazón de las Profundidades"),
+("Tenacidad de la Geoarmada"),
+("Llamas Albinas"),
+("Reminiscencia de la Purificación"),
+("Emblema del Destino"),
+("Cáscara de Sueños Opulentos"),
+("Perla Oceánica"),
+("Deceso del Cinabrio"),
+("Eco del Sacrificio"),
+("Recuerdos del Bosque"),
+("Sueños Áureos"),
+("Épica del Pabellón del Desierto"),
+("Flor Olvidada del Paraíso"),
+("Sueño de la Ninfa"),
+("Fulgor de Vurukasha"),
+("Cazador Fantasmal"),
+("Compañía Dorada");
+
+INSERT INTO `bd_genshin`.`tipo_artefacto`
+(`nombre_tipo`)
+VALUES
+("Flor"), 
+("Pluma"),
+("Reloj"),
+("Cáliz"),
+("Casco");
+
+INSERT INTO `bd_genshin`.`stat_principal`
+(`nombre_stat`)
+VALUES
+("Vida"),
+("ATQ"),
+("Vida %"), 
+("DEF %"),
+("ATQ %"),
+("EM"),
+("RE %"),
+("Bono de Daño Elemental %"),
+("Bono de Daño Físico %"),
+("Prob. CRIT %"),
+("Daño CRIT %"),
+("Bono de Curación %")
+;
+
+INSERT INTO `bd_genshin`.`tipo_artefacto_stat`
+(`id_tipo_artefacto`, `id_stat_principal`)
+VALUES
+( 1, 1),
+( 2, 2),
+( 3, 3),
+( 3, 4),
+( 3, 5),
+( 3, 6),
+( 3, 7),
+( 4, 3),
+( 4, 4),
+( 4, 5),
+( 4, 6),
+( 4, 8),
+( 4, 9),
+( 5, 3),
+( 5, 4),
+( 5, 5),
+( 5, 6),
+( 5, 10),
+( 5, 11),
+( 5, 12);
+
+INSERT INTO `bd_genshin`.`substats`
+(`nombre_substat`)
+VALUES
+("Vida Plana"),
+("Vida %"),
+("ATQ Plano"),
+("ATQ %"),
+("DEF Plana"),
+("DEF %"),
+("ME"),
+("RE %"),
+("Prob. CRIT %"),
+("Daño CRIT %");
+
+INSERT INTO `bd_genshin`.`valores`
+(`valor`)
+VALUES
+("209 ~ 299"),
+("4.1% ~ 5.8%"),
+("14 ~ 19"),
+("4.1% ~ 5.8%"),
+("16 ~ 23"),
+("5.1% ~ 7.3%"),
+("16 ~ 23"),
+("4.5% ~ 6.5%"),
+("2.7% ~ 3.9%"),
+("5.4% ~ 7.8%");
+
+INSERT INTO `bd_genshin`.`substats_valores`
+(`id_substats`, `id_valores`)
+VALUES
+( 1, 1),
+( 2, 2),
+( 3, 3),
+( 4, 4),
+( 5, 5),
+( 6, 6),
+( 7, 7),
+( 8, 8),
+( 9, 9),
+( 10, 10);
+
+INSERT INTO `bd_genshin`.`cantidad_subidas`
+(`cantidad`)
+VALUES
+(0),
+(1),
+(2),
+(3),
+(4);
+
